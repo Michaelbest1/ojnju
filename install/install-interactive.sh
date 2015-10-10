@@ -27,21 +27,21 @@ fi
 #try install tools
 if uname -a|grep 'Ubuntu\|Debian'
 then 
-sudo apt-get install make flex g++ clang libmysql++-dev php5 apache2 mysql-server php5-mysql php5-gd php5-cli mono-gmcs subversion
-sudo /etc/init.d/mysql start
-HTTP_START="sudo /etc/init.d/apache2 restart"
+	sudo apt-get install make flex g++ clang libmysql++-dev php5 apache2 mysql-server php5-mysql php5-gd php5-cli mono-gmcs subversion
+	sudo /etc/init.d/mysql start
+	HTTP_START="sudo /etc/init.d/apache2 restart"
 
 else
-sudo yum -y update
-sudo yum -y install php httpd php-mysql mysql-server php-xml php-gd gcc-c++  mysql-devel php-mbstring glibc-static flex
-sudo /etc/init.d/mysqld start
-WEBBASE=/var/www/html
-APACHEUSER=apache
-HTTP_START="sudo /etc/init.d/httpd restart"
-echo "/usr/bin/judged" > judged
+	sudo yum -y update
+	sudo yum -y install php httpd php-mysql mysql-server php-xml php-gd gcc-c++  mysql-devel php-mbstring glibc-static flex
+	sudo /etc/init.d/mysqld start
+	WEBBASE=/var/www/html
+	APACHEUSER=apache
+	HTTP_START="sudo /etc/init.d/httpd restart"
+	echo "/usr/bin/judged" > judged
 fi
 
-sudo svn checkout https://github.com/zhblue/hustoj/trunk/trunk hustoj-read-only
+#sudo svn checkout https://github.com/zhblue/hustoj/trunk/trunk hustoj-read-only
 
 #create user and homedir
 sudo  /usr/sbin/useradd -m -u 1536 judge
@@ -52,10 +52,14 @@ sudo  /usr/sbin/useradd -m -u 1536 judge
 cd hustoj-read-only/core/
 sudo ./make.sh
 cd ../..
-#install web and db
-sudo cp -R hustoj-read-only/web $WEBBASE/JudgeOnline
-sudo chmod -R 771 $WEBBASE/JudgeOnline
-sudo chown -R $APACHEUSER $WEBBASE/JudgeOnline
+
+#install web
+#sudo cp -R hustoj-read-only/web $WEBBASE/JudgeOnline
+#sudo chmod -R 771 $WEBBASE/JudgeOnline
+#sudo chown -R $APACHEUSER $WEBBASE/JudgeOnline
+sudo ln -s 
+
+#install mysql 
 sudo mysql -h localhost -u$DBUSER -p$DBPASS < db.sql
 
 #create work dir set default conf
@@ -72,6 +76,7 @@ sudo chown -R judge /home/judge
 sudo chgrp -R $APACHEUSER /home/judge/data
 sudo chgrp -R root /home/judge/etc /home/judge/run?
 sudo chmod 775 /home/judge /home/judge/data /home/judge/etc /home/judge/run?
+
 #update database account
 SED_CMD="s/OJ_USER_NAME=root/OJ_USER_NAME=$DBUSER/g"
 SED_CMD2="s/OJ_PASSWORD=root/OJ_PASSWORD=$DBPASS/g"
