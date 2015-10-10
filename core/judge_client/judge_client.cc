@@ -287,7 +287,8 @@ void init_mysql_conf() {
 	strcpy(java_xms, "-Xms32m");
 	strcpy(java_xmx, "-Xmx256m");
 	sprintf(buf, "%s/etc/judge.conf", oj_home);
-	fp = fopen("./etc/judge.conf", "re");
+	//fp = fopen("./etc/judge.conf", "re");
+	fp = fopen(buf, "re");
 	if (fp != NULL) {
 		while (fgets(buf, BUFFER_SIZE - 1, fp)) {
 			read_buf(buf, "OJ_HOST_NAME", host_name);
@@ -312,6 +313,9 @@ void init_mysql_conf() {
 
 		}
 		//fclose(fp);
+	}
+	else {
+		write_log("Read judge conf failed! path:%s\n", buf);
 	}
 }
 
@@ -2066,6 +2070,7 @@ int main(int argc, char** argv) {
 
 	init_mysql_conf();
 
+	write_log("oi_mode:%d\n", oi_mode);
 	if (!http_judge && !init_mysql_conn()) {
 		exit(0); //exit if mysql is down
 	}

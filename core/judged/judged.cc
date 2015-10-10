@@ -510,7 +510,8 @@ int daemon_init(void)
 }
 
 int main(int argc, char** argv) {
-	DEBUG = (argc > 2);
+	//DEBUG = (argc > 2);
+	DEBUG = 1;
 	ONCE = (argc > 3);
 	if (argc > 1)
 		strcpy(oj_home, argv[1]);

@@ -196,4 +196,3 @@ CREATE TABLE  `custominput` (
   `input_text` text,
   PRIMARY KEY (`solution_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-

@@ -19,7 +19,7 @@ if (isset($_GET['pid']))
 	$pid=intval($_GET['pid']);
 ?>
 <table width=100% class=toprow><tr align=center>
-	<td width=15%><a class=hd href='./'><?php echo $MSG_HOME?></a>
+	<td width=15%><a class=hd href='./assignment.php'><?php echo $MSG_HOME?></a>
 	<!--
 	<td width=15%><a class=hd href='./bbs.php?cid=<?php echo $cid?>'><?php echo $MSG_BBS?></a>
 	-->

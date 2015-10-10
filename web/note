@@ -5,4 +5,4 @@ type 0 for assignment, 1 for exam
 //gcc版本一致:根据部署机的GCC版本而定。
 //作业和考试分开
 mac地址
-作业能看到错误的case
+//作业能看到错误的case:可用oi模式.难度用提示降低.

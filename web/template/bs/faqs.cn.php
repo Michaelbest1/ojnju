@@ -15,7 +15,14 @@
 </center>
 <hr>
 <p><font color=green>Q</font>:这个在线裁判系统使用什么样的编译器和编译选项?<br>
-  <font color=red>A</font>:系统运行于<a href="http://www.debian.org/">Debian</a>/<a href="http://www.ubuntu.com">Ubuntu</a> Linux. 使用<a href="http://gcc.gnu.org/">GNU GCC/G++</a> 作为C/C++编译器, <a href="http://www.freepascal.org">Free Pascal</a> 作为pascal 编译器 ，用 <a href="http://www.oracle.com/technetwork/java/index.html">sun-java-jdk1.6</a> 编译 Java. 对应的编译选项如下:<br>
+  <font color=red>A</font>
+  :系统运行于
+  <a href="http://www.debian.org/">Debian</a>/<a href="http://www.ubuntu.com">Ubuntu</a> Linux. 使用
+  <a href="http://gcc.gnu.org/">GNU GCC/G++</a> 作为C/C++编译器.
+  <!--
+  <a href="http://www.freepascal.org">Free Pascal</a> 作为pascal 编译器 ，用 
+  <a href="http://www.oracle.com/technetwork/java/index.html">sun-java-jdk1.6</a> 编译 Java. 对应的编译选项如下:<br>
+  -->
 </p>
 <table border="1">
   <tr>
@@ -26,6 +33,7 @@
     <td>C++:</td>
     <td><font color=blue>g++ Main.cc -o Main  -fno-asm -O2 -Wall -lm --static -DONLINE_JUDGE</font></td>
   </tr>
+  <!--
   <tr>
     <td>Pascal:</td>
     <td><font color=blue>fpc Main.pas -oMain -O1 -Co -Cr -Ct -Ci </font></td>
@@ -37,13 +45,16 @@
     <font size="-1" color="red">*Java has 2 more seconds and 512M more memory when running and judging.</font>
     </td>
   </tr>
+  -->
 </table>
 <p>  编译器版本为（系统可能升级编译器版本，这里直供参考）:<br>
-  <font color=blue>gcc (Ubuntu/Linaro 4.4.4-14ubuntu5) 4.4.5</font><br>
+  <font color=blue>gcc (Ubuntu 4.8.4-2ubuntu1~14.04) 4.8.4</font><br>
   <font color=blue>glibc 2.3.6</font><br>
-<font color=blue>Free Pascal Compiler version 2.4.0-2 [2010/03/06] for i386<br>
-java version "1.6.0_22"<br>
+  <!--
+  <font color=blue>Free Pascal Compiler version 2.4.0-2 [2010/03/06] for i386<br>
+  java version "1.6.0_22"<br>
 </font></p>
+  -->
 <hr>
 <p><font color=green>Q</font>:程序怎样取得输入、进行输出?<br>
   <font color=red>A</font>:你的程序应该从标准输入 stdin('Standard Input')获取输出 并将结果输出到标准输出 stdout('Standard Output').例如,在C语言可以使用 'scanf' ，在C++可以使用'cin' 进行输入；在C使用 'printf' ，在C++使用'cout'进行输出.</p>
