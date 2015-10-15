@@ -34,6 +34,7 @@ static  $OJ_TEST_RUN=true;
 static  $OJ_EXAM_CONTEST_ID=0;
 
 
+static $OJ_SIMPLE_PSW=0;
 
 static $OJ_OPENID_PWD = '8a367fe87b1e406ea8e94d7d508dcf01';
 

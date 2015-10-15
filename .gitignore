@@ -29,3 +29,6 @@
 
 /web/upload/*
 *.swp
+
+/core/judged/*.o
+/core/judge_client/*.o

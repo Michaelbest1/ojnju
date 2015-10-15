@@ -1,4 +1,6 @@
 <?php
+require_once("./include/db_info.inc.php");
+
 function pwGen($password,$md5ed=False) 
 {
 	if (!$md5ed) $password=md5($password);
@@ -10,6 +12,10 @@ function pwGen($password,$md5ed=False)
 
 function pwCheck($password,$saved)
 {
+	if ($OJ_SIMPLE_PSW) {
+		return $password == $saved;
+	}
+
 	if (isOldPW($saved)){
 		$mpw = md5($password);
 		if ($mpw==$saved) return True;

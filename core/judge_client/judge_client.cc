@@ -53,6 +53,7 @@
 #define STD_F_LIM (STD_MB<<5)
 #define STD_M_LIM (STD_MB<<7)
 #define BUFFER_SIZE 512
+#define DESC_BUFFER_SIZE 1024
 
 #define OJ_WT0 0
 #define OJ_WT1 1
@@ -562,12 +563,13 @@ void login() {
 }
 /* write result back to database */
 void _update_solution_mysql(int solution_id, int result, int time, int memory,
-		int sim, int sim_s_id, double pass_rate) {
-	char sql[BUFFER_SIZE];
+		int sim, int sim_s_id, double pass_rate, char desc[]) {
+	char sql[2000];
 	if (oi_mode) {
+		//write_log("desc: %s\n", desc);
 		sprintf(sql,
-				"UPDATE solution SET result=%d,time=%d,memory=%d,pass_rate=%f WHERE solution_id=%d LIMIT 1%c",
-				result, time, memory, pass_rate, solution_id, 0);
+				"UPDATE solution SET result=%d,time=%d,memory=%d,pass_rate=%f,`desc`='%s' WHERE solution_id=%d LIMIT 1%c",
+				result, time, memory, pass_rate, desc, solution_id, 0);
 	} else {
 		sprintf(sql,
 				"UPDATE solution SET result=%d,time=%d,memory=%d WHERE solution_id=%d LIMIT 1%c",
@@ -575,7 +577,7 @@ void _update_solution_mysql(int solution_id, int result, int time, int memory,
 	}
 	//      printf("sql= %s\n",sql);
 	if (mysql_real_query(conn, sql, strlen(sql))) {
-		//              printf("..update failed! %s\n",mysql_error(conn));
+		write_log("update solution failed! msg: %s\n",mysql_error(conn));
 	}
 	if (sim) {
 		sprintf(sql,
@@ -598,8 +600,7 @@ void _update_solution_http(int solution_id, int result, int time, int memory,
 	//fscanf(fjobs,"%d",&ret);
 	pclose(fjobs);
 }
-void update_solution(int solution_id, int result, int time, int memory, int sim,
-		int sim_s_id, double pass_rate) {
+void update_solution(int solution_id, int result, int time, int memory, int sim, int sim_s_id, double pass_rate) {
 	if (result == OJ_TL && memory == 0)
 		result = OJ_ML;
 	if (http_judge) {
@@ -607,7 +608,17 @@ void update_solution(int solution_id, int result, int time, int memory, int sim,
 				pass_rate);
 	} else {
 		_update_solution_mysql(solution_id, result, time, memory, sim, sim_s_id,
-				pass_rate);
+				pass_rate, NULL);
+	}
+}
+void update_solution_desc(int solution_id, int result, int time, 
+		int memory, int sim, int sim_s_id, double pass_rate, char desc[]) {
+	if (http_judge) {
+		write_log("Unsupported feature desc for http judge.");
+	}
+	else {
+		_update_solution_mysql(solution_id, result, time, memory, sim, sim_s_id,
+				pass_rate, desc);
 	}
 }
 /* write compile error message back to database */
@@ -1210,14 +1221,16 @@ void get_problem_info(int p_id, int & time_lmt, int & mem_lmt, int & isspj) {
 	
 }
 
-void prepare_files(char * filename, int namelen, char * infile, int & p_id,
-		char * work_dir, char * outfile, char * userfile, int runner_id) {
+void prepare_files(char * filename, int namelen, char * infile, char *descfile, 
+		int & p_id, char * work_dir, char * outfile, char * userfile, int runner_id) {
 	//              printf("ACflg=%d %d check a file!\n",ACflg,solution_id);
 
 	char fname[BUFFER_SIZE];
 	strncpy(fname, filename, namelen);
 	fname[namelen] = 0;
 	sprintf(infile, "%s/data/%d/%s.in", oj_home, p_id, fname);
+	sprintf(descfile, "%s/data/%d/%s.desc", oj_home, p_id, fname);
+
 	execute_cmd("/bin/cp '%s' %s/data.in", infile, work_dir);
 	execute_cmd("/bin/cp %s/data/%d/*.dic %s/", oj_home, p_id, work_dir);
 
@@ -2057,6 +2070,32 @@ void print_call_array() {
 	printf("0};\n");
 
 }
+
+void append_err_info(char descbuf[], int &descsz, char descfile[])
+{
+	FILE *pfile = fopen(descfile, "r");
+	if (!pfile) {
+		write_log("open desc file failed! path:%s\n", descfile);
+		return;
+	}
+
+	char buf[BUFFER_SIZE];
+	while ( fgets(buf, BUFFER_SIZE, pfile) ) {
+		int len = strlen(buf);
+		if (descsz + len >= DESC_BUFFER_SIZE) {
+			write_log("desc buff size exceeded!\n");
+			goto close_out;
+		}
+		write_log("file buf: %s\n", buf);
+		strcat(descbuf, buf);
+		descsz += len;
+	}
+
+	//write_log("desc buff: %s", descbuf);
+close_out:
+	fclose(pfile);
+}
+
 int main(int argc, char** argv) {
 
 	char work_dir[BUFFER_SIZE];
@@ -2147,6 +2186,7 @@ int main(int argc, char** argv) {
 	char infile[BUFFER_SIZE];
 	char outfile[BUFFER_SIZE];
 	char userfile[BUFFER_SIZE];
+	char descfile[BUFFER_SIZE];
 	sprintf(fullpath, "%s/data/%d", oj_home, p_id); // the fullpath of data dir
 
 	// open DIRs
@@ -2224,6 +2264,8 @@ int main(int argc, char** argv) {
 		exit(0);
 	}
 
+	char descbuf[DESC_BUFFER_SIZE] = "\0";
+	int descsz = 0;
 	for (; (oi_mode || ACflg == OJ_AC|| ACflg == OJ_PE) && (dirp = readdir(dp)) != NULL;) {
 
 		namelen = isInFile(dirp->d_name); // check if the file is *.in or not
@@ -2233,7 +2275,7 @@ int main(int argc, char** argv) {
 		if(http_judge&&(!data_list_has(dirp->d_name))) 
 			continue;
 	
-		prepare_files(dirp->d_name, namelen, infile, p_id, work_dir, outfile,
+		prepare_files(dirp->d_name, namelen, infile, descfile, p_id, work_dir, outfile,
 				userfile, runner_id);
 		init_syscalls_limits(lang);
 
@@ -2264,6 +2306,11 @@ int main(int argc, char** argv) {
 			if (ACflg == OJ_AC) {
 				++pass_rate;
 			}
+			else {
+				//Write error information for students.
+				append_err_info(descbuf, descsz, descfile);
+			}
+
 			if (finalACflg < ACflg) {
 				finalACflg = ACflg;
 			}
@@ -2293,10 +2340,13 @@ int main(int argc, char** argv) {
 		usedtime = time_lmt * 1000;
 	}
 	if (oi_mode) {
-		if (num_of_test > 0)
+		if (num_of_test > 0) {
 			pass_rate /= num_of_test;
-		update_solution(solution_id, finalACflg, usedtime, topmemory >> 10, sim,
-				sim_s_id, pass_rate);
+		}
+		//update_solution(solution_id, finalACflg, usedtime, topmemory >> 10, 
+		//		sim, sim_s_id, pass_rate);
+		update_solution_desc(solution_id, finalACflg, usedtime, topmemory >> 10, 
+				sim, sim_s_id, pass_rate, descbuf);
 	} else {
 		update_solution(solution_id, ACflg, usedtime, topmemory >> 10, sim,
 				sim_s_id, 0);

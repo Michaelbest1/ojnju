@@ -62,7 +62,13 @@ if ($err_cnt>0){
 	exit(0);
 	
 }
-$password=pwGen($_POST['password']);
+if ($OJ_SIMPLE_PSW) {
+	$password=$_POST['password'];
+}
+else {
+	$password=pwGen($_POST['password']);
+}
+
 $sql="SELECT `user_id` FROM `users` WHERE `users`.`user_id` = '".$user_id."'";
 $result=mysql_query($sql);
 $rows_cnt=mysql_num_rows($result);
