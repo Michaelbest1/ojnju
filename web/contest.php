@@ -105,7 +105,9 @@ if (isset($_GET['cid'])){
 		$view_start_time=$row->start_time;
 		$view_end_time=$row->end_time;
 
-
+		if ($now >= $start_time && $now < $end_time) {
+			$_SESSION['inContest'] = true;
+		}
 
 		if (!isset($_SESSION['administrator']) && $now<$start_time){
 			$view_errors=  "<h2>$MSG_PRIVATE_WARNING</h2>";
@@ -154,6 +156,7 @@ if (isset($_GET['cid'])){
 	mysql_free_result($result);
 
 }else{
+	//cid not set
 	$keyword="";
 	if(isset($_POST['keyword'])){
 		$keyword=mysql_real_escape_string($_POST['keyword']);

@@ -151,11 +151,12 @@ $lang_count=count($language_ext);
 
  $langmask=$OJ_LANGMASK;
 
- for($i=0;$i<$lang_count;$i++){
-                 echo "<option value=$i selected>
-                        ".$language_name[$i]."
-                 </option>";
-  }
+for($i=0;$i<$lang_count;$i++){
+	if ($language_name[$i] == $OJ_DEFAULT_LANG)
+		echo "<option value=$i selected> ".$language_name[$i]." </option>";
+	else
+		echo "<option value=$i> ".$language_name[$i]." </option>";
+}
 
 ?>
 

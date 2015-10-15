@@ -142,15 +142,14 @@ Password:<input type=text name=password value="<?php echo htmlentities($password
 $lang_count=count($language_ext);
 
 
-  $lang=(~((int)$langmask))&((1<<$lang_count)-1);
+$lang=(~((int)$langmask))&((1<<$lang_count)-1);
 if(isset($_COOKIE['lastlang'])) $lastlang=$_COOKIE['lastlang'];
- else $lastlang=0;
- for($i=0;$i<$lang_count;$i++){
-               
-                 echo  "<option value=$i ".( $lang&(1<<$i)?"selected":"").">
-                        ".$language_name[$i]."
-                 </option>";
-  }
+else $lastlang=0;
+for($i=0;$i<$lang_count;$i++){
+	echo  "<option value=$i ".( $lang&(1<<$i)?"selected":"").">
+		".$language_name[$i]."
+		</option>";
+}
 
 ?>
 	

@@ -32,6 +32,7 @@ static  $OJ_RANK_LOCK_PERCENT=0;
 static  $OJ_SHOW_DIFF=false;
 static  $OJ_TEST_RUN=true;
 static  $OJ_EXAM_CONTEST_ID=0;
+static  $OJ_DEFAULT_LANG="C++";
 
 
 static $OJ_SIMPLE_PSW=0;
