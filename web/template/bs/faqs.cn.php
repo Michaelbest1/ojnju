@@ -83,6 +83,7 @@ int main(){
 	return 0;
 }
 </font></pre>
+<!--
  PASCAL:<br>
 <pre><font color="blue">
 program p1001(Input,Output); 
@@ -111,6 +112,7 @@ public class Main{
 		}
 	}
 }</font></pre>
+-->
 
 <hr>
 <font color=green>Q</font>:为什么我的程序在自己的电脑上正常编译，而系统告诉我编译错误!<br>
