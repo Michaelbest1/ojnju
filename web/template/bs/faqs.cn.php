@@ -136,7 +136,7 @@ public class Main{
   <br>
   <font color=blue>Presentation Error</font> : 答案基本正确，但是格式不对。<br>
   <br>
-  <font color=blue>Wrong Answer</font> : 答案不对，仅仅通过样例数据的测试并不一定是正确答案，一定还有你没想到的地方.<br>
+  <font color=blue>Wrong Answer</font> : 答案不对，仅仅通过样例数据的测试并不一定是正确答案，一定还有你没想到的地方. <font color=red>可以通过点击“答案错误”按钮查看错误帮助信息</font><br>
   <br>
   <font color=blue>Time Limit Exceeded</font> : 运行超出时间限制，检查下是否有死循环，或者应该有更快的计算方法。<br>
   <br>

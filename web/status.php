@@ -215,10 +215,22 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 		$view_status[$i][3]="";
 		if (intval($row['result'])==11 && ((isset($_SESSION['user_id'])&&$row['user_id']==$_SESSION['user_id']) || isset($_SESSION['source_browser']))){
 			$view_status[$i][3].= "<a href='ceinfo.php?sid=".$row['solution_id']."' class='".$judge_color[$row['result']]."'  title='$MSG_Click_Detail'>".$MSG_Compile_Error."</a>";
-		}else if ((((intval($row['result'])==5||intval($row['result'])==6)&&$OJ_SHOW_DIFF)||$row['result']==10||$row['result']==13) && ((isset($_SESSION['user_id'])&&$row['user_id']==$_SESSION['user_id']) || isset($_SESSION['source_browser']))){
+		}
+		//else if ( (((intval($row['result'])==5||intval($row['result'])==6)&&$OJ_SHOW_DIFF) || $row['result']==10 || $row['result']==13) 
+		else if ( ($row['result']==10 || $row['result']==13) 
+			&& ((isset($_SESSION['user_id'])&&$row['user_id']==$_SESSION['user_id']) || isset($_SESSION['source_browser']))){
 			$view_status[$i][3].= "<a href='reinfo.php?sid=".$row['solution_id']."' class='".$judge_color[$row['result']]."' title='$MSG_Click_Detail'>".$judge_result[$row['result']]."</a>";
 
-		}else{
+		}
+		else if ( $row['result'] == 6 ) {
+			if ( isset($_SESSION['user_id']) && $row['user_id'] == $_SESSION['user_id'] ) {
+				$view_status[$i][3].= "<a href='wainfo.php?sid=".$row['solution_id']."' class='".$judge_color[$row['result']]."' title='$MSG_Click_Detail'>".$judge_result[$row['result']]."</a>";
+			}
+			else {
+				$view_status[$i][3].= "<span class='".$judge_color[$row['result']]."'>".$judge_result[$row['result']]."</span>";
+			}
+		}
+	   	else {
 			if(!$lock||$lock_time>$row['in_date']||$row['user_id']==$_SESSION['user_id']){
 				if($OJ_SIM&&$row['sim']>80&&$row['sim_s_id']!=$row['s_id']) {
 					$view_status[$i][3].= "<span class='".$judge_color[$row['result']]."'>*".$judge_result[$row['result']]."</span>";

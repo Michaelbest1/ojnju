@@ -105,25 +105,25 @@ echo "<input type=submit class='input'  value='$MSG_SEARCH'></form>";
 </thead>
 
 <tbody>
-                        <?php
-                        $cnt=0;
-                        foreach($view_status as $row){
-                                if ($cnt)
-                                        echo "<tr class='oddrow'>";
-                                else
-                                        echo "<tr class='evenrow'>";
-                                foreach($row as $table_cell){
-                                        echo "<td>";
-                                        echo "\t".$table_cell;
-                                        echo "</td>";
-                                }
+<?php
+$cnt=0;
+foreach($view_status as $row){
+	if ($cnt)
+		echo "<tr class='oddrow'>";
+	else
+		echo "<tr class='evenrow'>";
+	foreach($row as $table_cell){
+		echo "<td>";
+		echo "\t".$table_cell;
+		echo "</td>";
+	}
 
-                                echo "</tr>";
+	echo "</tr>";
 
-                                $cnt=1-$cnt;
-                        }
-                        ?>
-                        </tbody>
+	$cnt=1-$cnt;
+}
+?>
+</tbody>
 </table>
 
 </div>
