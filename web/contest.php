@@ -105,7 +105,7 @@ if (isset($_GET['cid'])){
 		$view_start_time=$row->start_time;
 		$view_end_time=$row->end_time;
 
-		if ($now >= $start_time && $now < $end_time) {
+		if ($row->type == 1 && $now >= $start_time && $now < $end_time) {
 			$_SESSION['inContest'] = true;
 		}
 
