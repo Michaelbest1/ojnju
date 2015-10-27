@@ -34,3 +34,7 @@
 
 /core/judge_client/judge_client
 /core/judged/judged
+
+/web/.idea/
+
+url
