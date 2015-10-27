@@ -60,7 +60,7 @@
   <font color=red>A</font>:你的程序应该从标准输入 stdin('Standard Input')获取输出 并将结果输出到标准输出 stdout('Standard Output').例如,在C语言可以使用 'scanf' ，在C++可以使用'cin' 进行输入；在C使用 'printf' ，在C++使用'cout'进行输出.</p>
 <p>用户程序不允许直接读写文件, 如果这样做可能会判为运行时错误 "<font color=green>Runtime Error</font>"。<br>
   <br>
-下面是 1000题的参考答案</p>
+下面是一个计算两个整数和的例子：</p>
 <p> C++:<br>
 </p>
 <pre><font color="blue">
@@ -68,8 +68,8 @@
 using namespace std;
 int main(){
     int a,b;
-    while(cin >> a >> b)
-        cout << a+b << endl;
+    while(cin &gt;&gt; a &gt;&gt; b)
+        cout &lt;&lt; a+b &lt;&lt; endl;
 	return 0;
 }
 </font></pre>
@@ -150,9 +150,11 @@ public class Main{
   <br>
 </p>
 <hr>
+<!--
 <font color=green>Q</font>:如何参加在线比赛?<br>
 <font color=red>A</font>:用学号登录后就可以练习，点击比赛列表Contests可以看到正在进行的比赛并参加。<br>
 <br>
+-->
 <hr>
 <center>
   <font color=green size="+2">其他问题请联系助教</font>
