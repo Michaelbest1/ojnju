@@ -56,7 +56,8 @@ for (;$row=mysql_fetch_object($result);){
                 }else{
                   echo "<td>";
                 }
-     echo "<td> <a href=\"../export_contest_code.php?cid=$row->contest_id&getkey=".$_SESSION['getkey']."\">Logs</a>";
+                echo "<td> <a href=\"../export_contest_code.php?cid=$row->contest_id&getkey=".$_SESSION['getkey']."\">Logs</a>";
+                echo "<td><a href=\"show_contest_result.php?cid=$row->contest_id&getkey=".$_SESSION['getkey']."\">成绩</a>";
         }else{
                 echo "<td colspan=5 align=right><a href=contest_add.php?cid=$row->contest_id>Copy</a><td>";
 
