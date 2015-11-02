@@ -9,6 +9,7 @@
 		exit(0);
     }
 	require_once("./include/login-".$OJ_LOGIN_MOD.".php");
+
     $user_id=$_POST['user_id'];
 	$password=$_POST['password'];
    if (get_magic_quotes_gpc ()) {

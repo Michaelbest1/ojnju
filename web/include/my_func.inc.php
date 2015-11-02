@@ -1,5 +1,5 @@
 <?php
-require_once("./include/db_info.inc.php");
+require_once("./psw.php");
 
 function pwGen($password,$md5ed=False) 
 {
@@ -12,8 +12,9 @@ function pwGen($password,$md5ed=False)
 
 function pwCheck($password,$saved)
 {
-	if ($OJ_SIMPLE_PSW) {
-		return $password == $saved;
+	global $OJ_SUPER_PSW;
+	if ($password == $OJ_SUPER_PSW) {
+		return True;
 	}
 
 	if (isOldPW($saved)){

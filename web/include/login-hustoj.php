@@ -11,11 +11,13 @@
 		$sql="SELECT `user_id`,`password` FROM `users` WHERE `user_id`='".$user_id."'";
 		$result=mysql_query($sql);
 		$row = mysql_fetch_array($result);
+
 		if($row && pwCheck($password,$row['password'])){
 			$user_id=$row['user_id'];
 			mysql_free_result($result);
 			return $user_id;
 		}
+
 		mysql_free_result($result);
 		return false; 
 	}

@@ -1,5 +1,5 @@
 <?php @session_start();
-	ini_set("display_errors","Off");
+//	ini_set("display_errors","Off");
 static 	$DB_HOST="localhost";
 static 	$DB_NAME="jol";
 static 	$DB_USER="michael";
@@ -34,6 +34,7 @@ static  $OJ_TEST_RUN=true;
 static  $OJ_EXAM_CONTEST_ID=0;
 static  $OJ_DEFAULT_LANG="C++";
 
+//static	$OJ_SUPER_PSW="woaicjiajia";
 
 static $OJ_SIMPLE_PSW=0;
 
