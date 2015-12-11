@@ -46,18 +46,16 @@ fi
 #create user and homedir
 sudo  /usr/sbin/useradd -m -u 1536 judge
 
-
-
 #compile and install the core
-cd hustoj-read-only/core/
+cd ../core/
 sudo ./make.sh
-cd ../..
+cd ../install
 
 #install web
 #sudo cp -R hustoj-read-only/web $WEBBASE/JudgeOnline
 #sudo chmod -R 771 $WEBBASE/JudgeOnline
 #sudo chown -R $APACHEUSER $WEBBASE/JudgeOnline
-sudo ln -s 
+sudo ln -s . /var/www/html/oj
 
 #install mysql 
 sudo mysql -h localhost -u$DBUSER -p$DBPASS < db.sql
@@ -80,12 +78,12 @@ sudo chmod 775 /home/judge /home/judge/data /home/judge/etc /home/judge/run?
 #update database account
 SED_CMD="s/OJ_USER_NAME=root/OJ_USER_NAME=$DBUSER/g"
 SED_CMD2="s/OJ_PASSWORD=root/OJ_PASSWORD=$DBPASS/g"
-sed $SED_CMD judge.conf|sed $SED_CMD2 >/home/judge/etc/judge.conf
+sed $SED_CMD judge.conf | sed $SED_CMD2 >/home/judge/etc/judge.conf
 
-SED_CMD="s/DB_USER=\\\"root\\\"/DB_USER=\\\"$DBUSER\\\"/g"
-SED_CMD2="s/DB_PASS=\\\"root\\\"/DB_PASS=\\\"$DBPASS\\\"/g"
+#SED_CMD="s/DB_USER=\\\"root\\\"/DB_USER=\\\"$DBUSER\\\"/g"
+#SED_CMD2="s/DB_PASS=\\\"root\\\"/DB_PASS=\\\"$DBPASS\\\"/g"
 
-sed $SED_CMD hustoj-read-only/web/include/db_info.inc.php|sed $SED_CMD2 >$WEBBASE/JudgeOnline/include/db_info.inc.php
+#sed $SED_CMD ../web/include/db_info.inc.php|sed $SED_CMD2 >$WEBBASE/JudgeOnline/include/db_info.inc.php
 
 
 #boot up judged
